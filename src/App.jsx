@@ -50,6 +50,7 @@ const App = ({ socket }) => {
 
   return (
     <div>
+      <h1>POW-U-GOTCHI</h1>
       <Navigator creatures={navigationCreatures} />
         <div style={{
           display: 'flex',
