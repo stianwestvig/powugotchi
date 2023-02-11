@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import useSound from "use-sound";
 import ProgressBar from "./progress-bar.jsx";
 import Statistics from "./statistics.jsx";
+
 import egg1 from "../assets/images/egg-1.png";
 import egg2 from "../assets/images/egg-2.png";
 import egg3 from "../assets/images/egg-3.png";
@@ -45,7 +46,7 @@ const PowUGotchi = ({ onDeath, data, type }) => {
     if (!isDead) {
       setProgressbar((age / lifeStages[lifeStages.length - 1].limit) * 100)
     }
-    
+
     setAge((age) => age + power);
     checkIfNewLifeEvent(age, lifeStage);
   }, [data]);
@@ -57,7 +58,7 @@ const PowUGotchi = ({ onDeath, data, type }) => {
     }
 
     if (age > current.limit) {
-      if (currentIndex === lifeStages.length -1) {
+      if (currentIndex === lifeStages.length - 1) {
         // U ded
         setIsDead(true);
         playDeathSound();
