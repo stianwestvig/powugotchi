@@ -67,7 +67,8 @@ const App = ({ socket }) => {
     const gameOver = (        
       <div style={{
         display: 'flex',
-        flexWrap: 'wrap',
+        alignItems: 'center',
+        flexDirection: 'column',
       }}>
         <h2>GAME OVER</h2>
         <button onClick={() => window.location.reload(false)}>RESTART</button>
