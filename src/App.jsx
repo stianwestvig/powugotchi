@@ -15,6 +15,7 @@ const App = ({ socket }) => {
   const [ irisState, setIrisState ] = useCreatureState();
 
   const [gameState, setGameState] = useState(false)
+  const [deathCount, setDeathCount] = useState(0)
 
   const navigationCreatures = {
     ketil: [ ketilState, setKetilState ],
@@ -28,22 +29,17 @@ const App = ({ socket }) => {
     socket.addEventListener("message", (event) => {
       const message = JSON.parse(event.data);
 
-      console.log('GOT MESSAGE', message)
-
       if (message.data) { 
         switch (message.name) {
           case "AndreasCats": 
-            console.log('Found AndreasCats', message.data.P);
             setAndreasData(message);
             break;
           
           case "KetilCats": 
-            console.log('Found KetilCats', message.data.P);
             setKetilData(message);
             break;
           
           case "IrisOgArneCats": 
-            console.log('Found IrisOgArneCats', message.data.P);
             setIrisOgArneData(message);
             break;
           
@@ -52,22 +48,39 @@ const App = ({ socket }) => {
     });
   }
 
+  const onDeath = (name) => {
+    console.log(name + "died. Xoxo")
+    setDeathCount((count) => count + 1)
+  }
+
   const renderGame = (        
     <div style={{
       display: 'flex',
       flexWrap: 'wrap',
     }}>
-      {ketilState && <PowUGotchi data={ketilData} type="KetilCats" />}
-      {andreasState && <PowUGotchi data={andreasData} type="AndreasCats" />}
-      {irisState && <PowUGotchi data={irisOgArneData} type="IrisOgArneCats" />}
+      {ketilState && <PowUGotchi onDeath={onDeath} data={ketilData} type="KetilCats" />}
+      {andreasState && <PowUGotchi  onDeath={onDeath} data={andreasData} type="AndreasCats" />}
+      {irisState && <PowUGotchi onDeath={onDeath} data={irisOgArneData} type="IrisOgArneCats" />}
     </div>
     )
+
+    const gameOver = (        
+      <div style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+      }}>
+        <h2>GAME OVER</h2>
+        <button onClick={() => window.location.reload(false)}>RESTART</button>
+      </div>
+      )
+  
 
   return (
     <div>
       <h1>POW-U-GOTCHI</h1>
       {/* <Navigator creatures={navigationCreatures} /> */}
-        <div>
+      <div>
+        {deathCount === 3 ? gameOver : null}
         {!gameState ? <button onClick={() => startGame()}>START</button> : renderGame}
       </div>
     </div>

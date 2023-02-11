@@ -25,7 +25,7 @@ const lifeStages = [
   { image: rip, limit: 35000 },
 ];
 
-const PowUGotchi = ({ data, type }) => {
+const PowUGotchi = ({ onDeath, data, type }) => {
   const [age, setAge] = useState(0);
   const [lifeStage, setLifeStage] = useState(lifeStages[0]);
   const [isDead, setIsDead] = useState(false);
@@ -62,6 +62,7 @@ const PowUGotchi = ({ data, type }) => {
         setIsDead(true);
         playDeathSound();
         setProgressbar(100);
+        onDeath(name)
       } else {
         playEvolveSound();
         setLifeStage(lifeStages[currentIndex + 1]);
