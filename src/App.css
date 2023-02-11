@@ -1,3 +1,8 @@
+/* body {
+  background-image: url("src/assets/images/lightning.gif");
+  overflow: hidden;
+} */
+
 #root {
   max-width: 1280px;
   margin: 0 auto;

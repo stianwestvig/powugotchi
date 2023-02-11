@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navigator from "./components/navigator.jsx";
 import PowUGotchi from "./components/powugotchi.jsx";
 import { useCreatureState } from "./components/use-creature-states.js";
+import tamagotchiGif from "./assets/images/tamagotchi.gif"
 import "./App.css";
 
 const App = ({ socket }) => {
@@ -78,7 +79,8 @@ const App = ({ socket }) => {
 
   return (
     <div>
-      <h1>POW-U-GOTCHI</h1>
+      <h1 style={{color: "hotpink"}}>POW-U-GOTCHI</h1>
+      {!gameState ? <img style={{width: 200, height: 200}} src={tamagotchiGif}/> : null}
       {/* <Navigator creatures={navigationCreatures} /> */}
       <div>
         {deathCount === 3 ? gameOver : null}
