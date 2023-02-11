@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import ProgressBar from "./progress-bar.jsx";
 import Statistics from "./statistics.jsx";
-import egg1 from "../assets/egg-1.png";
-import egg2 from "../assets/egg-2.png";
-import egg3 from "../assets/egg-3.png";
-import child from "../assets/child.png";
-import teen from "../assets/teen.png";
-import adult from "../assets/adult.png";
-import rip from "../assets/rip.png";
+import egg1 from "../assets/images/egg-1.png";
+import egg2 from "../assets/images/egg-2.png";
+import egg3 from "../assets/images/egg-3.png";
+import child from "../assets/images/child.png";
+import teen from "../assets/images/teen.png";
+import adult from "../assets/images/adult.png";
+import rip from "../assets/images/rip.png";
 
 const imageScale = 4;
 
