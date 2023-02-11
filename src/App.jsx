@@ -14,50 +14,60 @@ const App = ({ socket }) => {
   const [ andreasState, setAndreasState ] = useCreatureState();
   const [ irisState, setIrisState ] = useCreatureState();
 
+  const [gameState, setGameState] = useState(false)
+
   const navigationCreatures = {
     ketil: [ ketilState, setKetilState ],
     andreas: [ andreasState, setAndreasState ],
     iris: [ irisState, setIrisState ]
   }
+  
+  const startGame = () => {
+    setGameState(true)
 
-  useEffect(() => {
     socket.addEventListener("message", (event) => {
       const message = JSON.parse(event.data);
 
-      // console.log('GOT MESSAGE', message)
+      console.log('GOT MESSAGE', message)
 
       if (message.data) { 
         switch (message.name) {
           case "AndreasCats": 
-            // console.log('Found AndreasCats', message.data.P);
+            console.log('Found AndreasCats', message.data.P);
             setAndreasData(message);
             break;
           
           case "KetilCats": 
-            // console.log('Found KetilCats', message.data.P);
+            console.log('Found KetilCats', message.data.P);
             setKetilData(message);
             break;
           
           case "IrisOgArneCats": 
-            // console.log('Found IrisOgArneCats', message.data.P);
+            console.log('Found IrisOgArneCats', message.data.P);
             setIrisOgArneData(message);
             break;
           
         }
       }
     });
-  }, []);
+  }
+
+  const renderGame = (        
+    <div style={{
+      display: 'flex',
+      flexWrap: 'wrap',
+    }}>
+      {ketilState && <PowUGotchi data={ketilData} type="KetilCats" />}
+      {andreasState && <PowUGotchi data={andreasData} type="AndreasCats" />}
+      {irisState && <PowUGotchi data={irisOgArneData} type="IrisOgArneCats" />}
+    </div>
+    )
 
   return (
     <div>
       <Navigator creatures={navigationCreatures} />
-        <div style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-        }}>
-        {ketilState && <PowUGotchi data={ketilData} type="KetilCats" />}
-        {andreasState && <PowUGotchi data={andreasData} type="AndreasCats" />}
-        {irisState && <PowUGotchi data={irisOgArneData} type="IrisOgArneCats" />}
+        <div>
+        {!gameState ? <button onClick={() => startGame()}>START</button> : renderGame}
       </div>
     </div>
   );
