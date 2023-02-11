@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import useSound from "use-sound";
 import ProgressBar from "./progress-bar.jsx";
 import Statistics from "./statistics.jsx";
+import Tips from './tips.jsx';
 
 import egg1 from "../assets/images/egg-1.png";
 import egg2 from "../assets/images/egg-2.png";
@@ -13,6 +14,7 @@ import rip from "../assets/images/rip.png";
 
 import deathSound from "../assets/sounds/deathSound.mp3";
 import evolveSound from "../assets/sounds/evolveSound.mp3";
+import buttonClickSound from "../assets/sounds/buttonClick.mp3";
 
 const imageScale = 4;
 
@@ -31,10 +33,12 @@ const PowUGotchi = ({ onDeath, data, type }) => {
   const [lifeStage, setLifeStage] = useState(lifeStages[0]);
   const [isDead, setIsDead] = useState(false);
   const [progressbar, setProgressbar] = useState(0);
+  const [randomIndex, setRandomIndex] = useState(0);
   const name = type?.split("Cats")[0];
 
   const [playDeathSound] = useSound(deathSound);
   const [playEvolveSound] = useSound(evolveSound);
+  const [playButtonClickSound] = useSound(buttonClickSound);
 
   useEffect(() => {
     const power = data?.data?.P;
@@ -66,6 +70,7 @@ const PowUGotchi = ({ onDeath, data, type }) => {
         setIsDead(true);
         playDeathSound();
         setProgressbar(100);
+        setRandomIndex(Math.floor(Math.random() * 10));
       } else {
         playEvolveSound();
         setLifeStage(lifeStages[currentIndex + 1]);
@@ -77,14 +82,25 @@ const PowUGotchi = ({ onDeath, data, type }) => {
     <div
       style={{
         margin: "20px",
+        position: 'relative'
       }}
     >
-      <h2>{name}</h2>
-      <ProgressBar percent={progressbar <= 100 ? progressbar : 100} />
+      {isDead && <div
+        onClick={() => {
+          playButtonClickSound();
+          setRandomIndex(Math.floor(Math.random() * 10));
+        }}
+        style={{ cursor: 'hand' }}
+        >
+        <Tips randomIndex={randomIndex} />
+        </div>
+      }
       <img
         src={lifeStage.image}
         style={{ width: imageScale * 64, height: imageScale * 64 }}
       />
+      <h2>{name}</h2>
+      <ProgressBar percent={progressbar <= 100 ? progressbar : 100} />
       {/* <Statistics data={data} /> */}
     </div>
   );

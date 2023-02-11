@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
+import useSound from "use-sound";
 import Navigator from "./components/navigator.jsx";
 import PowUGotchi from "./components/powugotchi.jsx";
 import { useCreatureState } from "./components/use-creature-states.js";
-import tamagotchiGif from "./assets/images/tamagotchi.gif"
+import tamagotchiGif from "./assets/images/tamagotchi.gif";
+import backgroundMusicSound from "./assets/sounds/background-music.mp3";
 import "./App.css";
 
 const App = ({ socket }) => {
   const [ andreasData, setAndreasData ] = useState();
   const [ ketilData, setKetilData ] = useState();
   const [ irisOgArneData, setIrisOgArneData ] = useState();
+
+  const [playBackgroundMusicSound] = useSound(backgroundMusicSound, { volume: 0.4 });
   
   // display states:
   const [ ketilState, setKetilState ] = useCreatureState();
@@ -25,7 +29,8 @@ const App = ({ socket }) => {
   }
   
   const startGame = () => {
-    setGameState(true)
+    setGameState(true);
+    playBackgroundMusicSound();
 
     socket.addEventListener("message", (event) => {
       const message = JSON.parse(event.data);
@@ -79,7 +84,11 @@ const App = ({ socket }) => {
 
   return (
     <div>
-      <h1 style={{color: "hotpink"}}>POW-U-GOTCHI</h1>
+      <h1 style={{
+        color: "hotpink",
+        marginBottom: '60px',
+
+      }}>POW-U-GOTCHI</h1>
       {!gameState ? <img style={{width: 200, height: 200}} src={tamagotchiGif}/> : null}
       {/* <Navigator creatures={navigationCreatures} /> */}
       <div>
