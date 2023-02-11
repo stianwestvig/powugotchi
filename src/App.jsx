@@ -1,21 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import Navigator from './components/navigator.jsx';
-import PowUGotchi from './components/powugotchi.jsx';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import Navigator from "./components/navigator.jsx";
+import PowUGotchi from "./components/powugotchi.jsx";
+import "./App.css";
 
 const App = ({ socket }) => {
-  const [ andreasData, setAndreasData ] = useState();
-  const [ ketilData, setKetilData ] = useState();
-  const [ arneOgIrisData, setArneOgIrisData ] = useState();
+  const [andreasData, setAndreasData] = useState();
+  const [ketilData, setKetilData] = useState();
+  const [arneOgIrisData, setArneOgIrisData] = useState();
 
-  useEffect(() => {  
-    socket.addEventListener('message', (event) => {
+  useEffect(() => {
+    socket.addEventListener("message", (event) => {
       const message = JSON.parse(event.data);
 
       switch (message.name) {
-        case "AndreasCats": setAndreasData(message);
-        case "KetilCats": setKetilData(message);
-        case "ArneOgIrisCats": setArneOgIrisData(message);
+        case "AndreasCats":
+          setAndreasData(message);
+        case "KetilCats":
+          setKetilData(message);
+        case "ArneOgIrisCats":
+          setArneOgIrisData(message);
       }
     });
   }, []);
@@ -23,17 +26,18 @@ const App = ({ socket }) => {
   return (
     <div>
       <Navigator />
-        <div style={{
-        display: 'flex',
-        flexWrap: 'wrap',
-      }}>
-        <PowUGotchi data={andreasData} type="KetilCats" />
-        <PowUGotchi data={ketilData} type="AndreasCats" />
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+        }}
+      >
+        <PowUGotchi data={andreasData} type="AndreasCats" />
+        <PowUGotchi data={ketilData} type="KetilCats" />
         <PowUGotchi data={arneOgIrisData} type="IrisOgArneCats" />
       </div>
     </div>
-    
   );
-}
+};
 
-export default App
+export default App;
