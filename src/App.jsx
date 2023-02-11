@@ -1,34 +1,29 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import React, { useEffect, useState } from 'react';
+import PowUGotchi from './components/powugotchi.jsx';
+import './App.css';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [ data, setData ] = useState();
+
+  useEffect(() => {
+    const socket = new WebSocket('ws://164.92.190.132:1880/ws');
+
+    socket.addEventListener('open', (event) => {
+      socket.send('Hello Server!');
+    });
+
+    socket.addEventListener('message', (event) => {
+      const message = JSON.parse(event.data);
+      setData(message);
+    }, []);
+  });
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <div>
+      <h1>App</h1>
+      <PowUGotchi data={data} />
     </div>
-  )
+  );
 }
 
 export default App
