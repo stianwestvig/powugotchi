@@ -65,6 +65,7 @@ const App = ({ socket }) => {
 
   return (
     <div>
+      <h1>POW-U-GOTCHI</h1>
       <Navigator creatures={navigationCreatures} />
         <div>
         {!gameState ? <button onClick={() => startGame()}>START</button> : renderGame}

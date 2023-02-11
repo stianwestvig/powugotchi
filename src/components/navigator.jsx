@@ -6,9 +6,9 @@ const Navigator = ({ creatures }) => {
 
   return (
     <div>
-      <button onClick={() => setKetilState(!ketilState)}>Ketil: {ketilState}</button>
-      <button onClick={() => setAndreasState(!ketilState)}>Andreas: {andreasState}</button>
-      <button onClick={() => setIrisState(!irisState)}>Iris og Arne: {irisState}</button>
+      <button onClick={() => setKetilState(!ketilState)}>Ketil</button>
+      <button onClick={() => setAndreasState(!ketilState)}>Andreas</button>
+      <button onClick={() => setIrisState(!irisState)}>Iris og Arne</button>
     </div>
   );
 };
