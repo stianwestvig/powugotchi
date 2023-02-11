@@ -75,14 +75,13 @@ const PowUGotchi = ({ data, type }) => {
         margin: "20px",
       }}
     >
-      <h1>{name}</h1>
+      <h2>{name}</h2>
       <ProgressBar percent={progressbar <= 100 ? progressbar : 100} />
       <img
         src={lifeStage.image}
         style={{ width: imageScale * 64, height: imageScale * 64 }}
       />
-      <Statistics data={data} />
-      <p>Age: {age}</p>
+      {/* <Statistics data={data} /> */}
     </div>
   );
 };
