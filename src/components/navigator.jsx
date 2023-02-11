@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
-import { useCreatureStates } from './use-creature-states.js';
-
-const Navigator = () => {
-  const { ketil, andreas } = useCreatureStates();
+const Navigator = ({ creatures }) => {
+  const { ketil, andreas, iris } = creatures;
   const [ ketilState, setKetilState ] = ketil;
-  console.log('ketil', ketil);
+  const [ andreasState, setAndreasState ] = andreas;
+  const [ irisState, setIrisState ] = iris;
+
   return (
     <div>
       <button onClick={() => setKetilState(!ketilState)}>Ketil: {ketilState}</button>
-      <button>Andreas</button>
-      <button>IrisOgArne</button>
+      <button onClick={() => setAndreasState(!ketilState)}>Andreas: {andreasState}</button>
+      <button onClick={() => setIrisState(!irisState)}>Iris og Arne: {irisState}</button>
     </div>
   );
 };

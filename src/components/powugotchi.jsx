@@ -26,7 +26,7 @@ const PowUGotchi = ({ data, type }) => {
   const name = type?.split("Cats")[0];
 
   useEffect(() => {
-    console.log("age", age);
+    // console.log('age', age);
     const power = data?.data?.P;
 
     if (!data) {
