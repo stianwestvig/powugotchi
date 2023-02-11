@@ -45,6 +45,8 @@ const PowUGotchi = ({ onDeath, data, type }) => {
 
     if (!isDead) {
       setProgressbar((age / lifeStages[lifeStages.length - 1].limit) * 100)
+    } else {
+      setProgressbar(100);
     }
 
     setAge((age) => age + power);
@@ -57,13 +59,13 @@ const PowUGotchi = ({ onDeath, data, type }) => {
       return;
     }
 
-    if (age > current.limit) {
+    if (age > current.limit - 1) {
       if (currentIndex === lifeStages.length - 1) {
         // U ded
+        onDeath(name)
         setIsDead(true);
         playDeathSound();
         setProgressbar(100);
-        onDeath(name)
       } else {
         playEvolveSound();
         setLifeStage(lifeStages[currentIndex + 1]);
