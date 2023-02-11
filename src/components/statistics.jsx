@@ -1,5 +1,5 @@
 const Statistics = ({ data }) => {
-  console.log(data);
+  // console.log(data);
   return <p>Power: {data?.data?.P}</p>;
 };
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import useSound from "use-sound";
 import ProgressBar from "./progress-bar.jsx";
 import Statistics from "./statistics.jsx";
 import egg1 from "../assets/images/egg-1.png";
@@ -8,6 +9,9 @@ import child from "../assets/images/child.png";
 import teen from "../assets/images/teen.png";
 import adult from "../assets/images/adult.png";
 import rip from "../assets/images/rip.png";
+
+import deathSound from "../assets/sounds/deathSound.mp3";
+import evolveSound from "../assets/sounds/evolveSound.mp3";
 
 const imageScale = 4;
 
@@ -23,31 +27,46 @@ const lifeStages = [
 
 const PowUGotchi = ({ data, type }) => {
   const [age, setAge] = useState(0);
+  const [lifeStage, setLifeStage] = useState(lifeStages[0]);
+  const [isDead, setIsDead] = useState(false);
+  const [progressbar, setProgressbar] = useState(0);
   const name = type?.split("Cats")[0];
 
+  const [playDeathSound] = useSound(deathSound);
+  const [playEvolveSound] = useSound(evolveSound);
+
   useEffect(() => {
-    // console.log('age', age);
     const power = data?.data?.P;
 
     if (!data) {
       return;
     }
 
+    if (!isDead) {
+      setProgressbar((age / lifeStages[lifeStages.length - 1].limit) * 100)
+    }
+    
     setAge((age) => age + power);
+    checkIfNewLifeEvent(age, lifeStage);
   }, [data]);
 
-  const percent = 80;
-
-  const getLifeImage = () => {
-    const currentLife = lifeStages.filter((stage) => {
-      return age < stage.limit;
-    });
-
-    if (!currentLife.length) {
-      return lifeStages[lifeStages.length - 1].image;
+  const checkIfNewLifeEvent = (age, current) => {
+    const currentIndex = lifeStages.findIndex(element => element === current);
+    if (isDead) {
+      return;
     }
 
-    return currentLife[0].image;
+    if (age > current.limit) {
+      if (currentIndex === lifeStages.length -1) {
+        // U ded
+        setIsDead(true);
+        playDeathSound();
+        setProgressbar(100);
+      } else {
+        playEvolveSound();
+        setLifeStage(lifeStages[currentIndex + 1]);
+      }
+    }
   };
 
   return (
@@ -57,12 +76,13 @@ const PowUGotchi = ({ data, type }) => {
       }}
     >
       <h1>{name}</h1>
-      <ProgressBar percent={percent} />
+      <ProgressBar percent={progressbar <= 100 ? progressbar : 100} />
       <img
-        src={getLifeImage()}
+        src={lifeStage.image}
         style={{ width: imageScale * 64, height: imageScale * 64 }}
       />
       <Statistics data={data} />
+      <p>Age: {age}</p>
     </div>
   );
 };
