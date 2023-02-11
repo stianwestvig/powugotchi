@@ -6,7 +6,12 @@ const PowUGotchi = ({ data }) => {
   // todo: function takes data => outputs a creature "behaviour"
   // todo: select image based on behaviour
 
-  console.log(data);
+  // console.log(data)
+
+  if (data?.name === 'IrisOgArneCats') {
+    console.log(data?.data?.P);
+  }
+
 
   return (
     <img src={normalImg0} />
